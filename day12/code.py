@@ -36,7 +36,7 @@ def generate_orientations(pattern):
     r2f = flip(r2) 
     r3f = flip(r3) 
 
-    for r in [r0, r1, r2, r3, r1f, r2f, r3f]: 
+    for r in [r0,r1, r2, r3, r1f, r2f, r3f]: 
         n = normalise(r)
         s = tuple(sorted(n))
         if s in visited: 
@@ -91,6 +91,15 @@ def valid(grid, counts):
     
     return False 
 
+def precheck(grid, counts): 
+    area = 0 
+    for key, value in counts.items(): 
+        area += len(d[key])*value
+    
+    if area > len(grid)*len(grid[0]): 
+        return False
+
+    return True 
 
 
 d = {} 
@@ -109,8 +118,8 @@ for q in queries:
     for i in range(len(t2)): 
         if t2[i] != '0': 
             counts[i] = int(t2[i])
-    print(grid, counts)
-    if valid(grid, counts): 
+    
+    if precheck(grid, counts) and valid(grid, counts): 
         ans += 1 
         print(ans)
 
